@@ -9,12 +9,15 @@ import com.moneytracker.model.Transaction;
 import com.moneytracker.model.Transactions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by hpishepei on 11/24/16.
@@ -26,11 +29,21 @@ public class Controllers {
     @Autowired
     private CoreFunctions coreFunctions;
 
-    @RequestMapping("/transactions")
-    public Map<String, SpendAndIncome> getTransactions(){
-        Map<String, SpendAndIncome> monthlyIncomeAndSpentMap = coreFunctions.getMonthlyTransaction(Filter.NO_FILTER);
+    @RequestMapping(value={"/transactions/{filter}"}, method= RequestMethod.GET)
+    public Map<String, SpendAndIncome> getTransactions(@PathVariable("filter") String filter){
+
+        Map<String, SpendAndIncome> monthlyIncomeAndSpentMap = new TreeMap<>();
+
+        if(filter.equals("all")){
+            monthlyIncomeAndSpentMap = coreFunctions.getMonthlyTransaction(Filter.NO_FILTER);
+        }
+        else if(filter.equals("ignore-donuts")){
+            monthlyIncomeAndSpentMap = coreFunctions.getMonthlyTransaction(Filter.IGNORE_DONUTS);
+        }
+
         return monthlyIncomeAndSpentMap;
     }
+
 
     @RequestMapping("/test")
     public Map<String, String> test(){

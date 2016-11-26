@@ -59,10 +59,8 @@ public class CoreFunctions {
 
                 }
                 else{
-                    System.out.println(transaction.getAmount());
                     totalIncome += transaction.getAmount()/10000.0;
                     String income = utils.addMoney(spendAndIncome.getIncome(), "$"+String.format("%.2f", transaction.getAmount()/10000.0));
-                    System.out.println(yearMonth+" -- "+income);
                     spendAndIncome.setIncome(income);
                 }
                 map.put(yearMonth.toString(), spendAndIncome);
