@@ -1,10 +1,14 @@
 package com.moneytracker.core;
 
 import com.moneytracker.Services.TransactionService;
-import com.moneytracker.model.AllTransactions;
+import com.moneytracker.constants.Filter;
+import com.moneytracker.model.AllInfor;
 import com.moneytracker.model.MonthlyTransaction;
+import com.moneytracker.model.SpendAndIncome;
 import com.moneytracker.model.Transaction;
 import com.moneytracker.utils.utils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.time.YearMonth;
@@ -13,75 +17,79 @@ import java.util.*;
 /**
  * Created by hpishepei on 11/24/16.
  */
+
+@Component
 public class CoreFunctions {
 
-    public List<MonthlyTransaction> getMonthlyTransaction(AllTransactions allTransactions){
-        List<MonthlyTransaction> monthlyTransactionList = new ArrayList<>();
+    @Autowired
+    private TransactionService transactionService;
 
-        List<Transaction> transactionList = allTransactions.getTransactions();
 
-        Map<String, MonthlyTransaction> map = new TreeMap<>();
+    public Map<String, SpendAndIncome> getMonthlyTransaction(Filter filter){
+
+        List<Transaction> transactionList = transactionService.getAllInfor().getTransactions();
+
+        Map<String, SpendAndIncome> map = new TreeMap<>();
+        double totalSpent = 0.0, totalIncome = 0.0;
+
 
         for(Transaction transaction : transactionList){
+
+            if (filter.equals(Filter.IGNORE_DONUTS)){
+                if (transaction.getMerchant().equals("Krispy Kreme Donuts")
+                        ||transaction.getMerchant().equals("DUNKIN #336784")){
+                    continue;
+                }
+            }
+
             try {
                 Date date = utils.stringToDate(transaction.getTransaction_time());
                 YearMonth yearMonth = utils.dateToYearMonth(date);
 
-
                 if(!map.containsKey(yearMonth.toString())){
-
-                    MonthlyTransaction monthlyTransaction = new MonthlyTransaction(yearMonth.toString(), "$0.00", "$0.00");
-
-                    if(transaction.getAmount()<0){
-                        String spent = "$" + String.format("%.2f", -transaction.getAmount()/10000.0);
-                        monthlyTransaction.setSpent(spent);
-                    }
-                    else{
-                        String income = "$" + String.format("%.2f", transaction.getAmount()/10000.0);
-                        monthlyTransaction.setIncome(income);
-                    }
-                    map.put(yearMonth.toString(), monthlyTransaction);
+                    map.put(yearMonth.toString(), new SpendAndIncome("$0.00", "$0.00"));
                 }
 
+                SpendAndIncome spendAndIncome = map.get(yearMonth.toString());
+
+                if(transaction.getAmount()<0){
+                    totalSpent += -transaction.getAmount()/10000.0;
+                    String spent = utils.addMoney(spendAndIncome.getSpent(), "$"+String.format("%.2f", -transaction.getAmount()/10000.0));
+                    spendAndIncome.setSpent(spent);
+
+                }
                 else{
-                    MonthlyTransaction monthlyTransaction = map.get(yearMonth.toString());
-                    if(transaction.getAmount()<0){
-                        String spent = utils.addMoney(monthlyTransaction.getSpent(), String.format("%.2f", -transaction.getAmount()/10000.0));
-                        monthlyTransaction.setSpent(spent);
-                    }
-                    else{
-                        String income = utils.addMoney(monthlyTransaction.getIncome(), String.format("%.2f", transaction.getAmount()/10000.0));
-                        monthlyTransaction.setIncome(income);
-                    }
-                    map.put(yearMonth.toString(), monthlyTransaction);
+                    System.out.println(transaction.getAmount());
+                    totalIncome += transaction.getAmount()/10000.0;
+                    String income = utils.addMoney(spendAndIncome.getIncome(), "$"+String.format("%.2f", transaction.getAmount()/10000.0));
+                    System.out.println(yearMonth+" -- "+income);
+                    spendAndIncome.setIncome(income);
                 }
+                map.put(yearMonth.toString(), spendAndIncome);
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
 
-        Iterator it = map.entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry pair = (Map.Entry)it.next();
-            monthlyTransactionList.add((MonthlyTransaction) pair.getValue());
-        }
+        totalIncome /= map.size();
+        totalSpent /= map.size();
+        SpendAndIncome si = new SpendAndIncome("$"+String.format("%.2f",totalSpent), "$"+String.format("%.2f",totalIncome));
+        map.put("average", si);
 
 
-        return monthlyTransactionList;
+
+
+        return map;
     }
 
 
     public static void main(String args[]){
-        TransactionService transactionService = new TransactionService();
-        AllTransactions allTransactions = transactionService.getAllTransactions();
 
         CoreFunctions coreFunctions = new CoreFunctions();
-        List<MonthlyTransaction> li = coreFunctions.getMonthlyTransaction(allTransactions);
+        Map<String, SpendAndIncome> map = coreFunctions.getMonthlyTransaction(Filter.NO_FILTER);
 
 
-        for (MonthlyTransaction m : li){
-            System.out.println(m.toString());
-        }
+
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by hpishepei on 11/24/16.
  */
-public class AllTransactions {
+public class AllInfor {
     private String error = "";
     private List<Transaction> transactions;
 

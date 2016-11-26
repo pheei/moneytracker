@@ -24,9 +24,9 @@ public class test {
 
 
         RestTemplate restTemplate = new RestTemplate();
-        AllTransactions allTransactions = restTemplate.postForObject(uri, arg, AllTransactions.class);
+        AllInfor allInfor = restTemplate.postForObject(uri, arg, AllInfor.class);
 
-        List<Transaction> transactionList = allTransactions.getTransactions();
+        List<Transaction> transactionList = allInfor.getTransactions();
 
         for(Transaction transaction : transactionList){
             System.out.println(transaction.toString());

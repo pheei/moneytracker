@@ -1,10 +1,8 @@
 package com.moneytracker.Services;
 
 import com.moneytracker.constants.Constants;
-import com.moneytracker.model.AllTransactions;
-import com.moneytracker.model.Args;
-import com.moneytracker.model.Param;
-import com.moneytracker.model.Transaction;
+import com.moneytracker.model.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -12,8 +10,10 @@ import java.util.List;
 /**
  * Created by hpishepei on 11/24/16.
  */
+
+@Component
 public class TransactionService {
-    public AllTransactions getAllTransactions(){
+    public AllInfor getAllInfor(){
         final String uri = "https://2016.api.levelmoney.com/api/v2/core/get-all-transactions";
         Param p = new Param();
         p.setUid(Constants.uid);
@@ -25,14 +25,18 @@ public class TransactionService {
 
 
         RestTemplate restTemplate = new RestTemplate();
-        AllTransactions allTransections = restTemplate.postForObject(uri, arg, AllTransactions.class);
+        AllInfor allInfor = restTemplate.postForObject(uri, arg, AllInfor.class);
 
-        return allTransections;
+
+        return allInfor;
     }
 
     public static void main(String args[]){
         TransactionService transactionService = new TransactionService();
-
+        List<Transaction> transactions = transactionService.getAllInfor().getTransactions();
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction.getAmount() / 10000.0 + "---" + transaction.getMerchant());
+        }
 
     }
 }
