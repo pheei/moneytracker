@@ -1,5 +1,6 @@
 package com.moneytracker.utils;
 
+import com.moneytracker.constants.Constants;
 import org.junit.Test;
 
 import java.security.spec.ECField;
@@ -9,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -45,6 +47,21 @@ public class utils {
         return "$" + String.format("%.2f", num3);
     }
 
+    public static boolean isWithin24Hours(String time1, String time2){
+
+        Date d1 = new Date();
+        Date d2 = new Date();
+
+        try {
+            d1 = utils.stringToDate(time1);
+            d2 = utils.stringToDate(time2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return d2.getTime()-d1.getTime()< Constants.one_day;
+
+    }
+
     /**
     @Test
     public void testStringToDate() throws ParseException {
@@ -55,19 +72,19 @@ public class utils {
 
     */
 
-    public static void main(String args[]){
-        System.out.print(addMoney("$13.14","$42.00"));
-        String str = "2015-03-01T15:07:00.000Z";
-        try {
-            Date d = stringToDate(str);
-            System.out.println(d.toString());
-            YearMonth y = dateToYearMonth(stringToDate(str));
-            System.out.println(y.toString());
+    public static void main(String args[]) throws ParseException {
+        String str1 = "2015-03-01T15:07:00.000Z";
+        String str2 = "2015-03-02T15:07:00.000Z";
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date d1 = utils.stringToDate(str1);
+        Date d2 = utils.stringToDate(str2);
 
+        System.out.print(d2.getTime()-d1.getTime());
+
+
+        LinkedHashMap<Double, Integer> map = new LinkedHashMap<>();
+        map.put(1.0, 10);
+        map.put(1.5, 20);
     }
 
 }

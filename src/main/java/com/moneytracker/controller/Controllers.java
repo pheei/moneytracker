@@ -1,21 +1,13 @@
 package com.moneytracker.controller;
 
-import com.moneytracker.Services.TransactionService;
 import com.moneytracker.constants.Filter;
 import com.moneytracker.core.CoreFunctions;
-import com.moneytracker.model.MonthlyTransaction;
 import com.moneytracker.model.SpendAndIncome;
-import com.moneytracker.model.Transaction;
-import com.moneytracker.model.Transactions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -29,22 +21,43 @@ public class Controllers {
     @Autowired
     private CoreFunctions coreFunctions;
 
-    @RequestMapping(value={"/transactions/{type}/{filter}"}, method= RequestMethod.GET)
+    /**
+    @RequestMapping(value={"/transactions/{type}"}, method= RequestMethod.GET)
     public Map<String, SpendAndIncome> getTransactions(@PathVariable("type") String type,
-                                                       @PathVariable("filter") String filter){
+                                                       @RequestParam("donut_filter") boolean hasDonutFilter,
+                                                       @RequestParam("credit_filter") boolean hasCreditFilter){
 
         Map<String, SpendAndIncome> monthlyIncomeAndSpentMap = new TreeMap<>();
 
-        if(filter.equals("all")){
-            monthlyIncomeAndSpentMap = coreFunctions.getMonthlyTransaction(Filter.NO_FILTER, type);
-        }
-        else if(filter.equals("ignore-donuts")){
-            monthlyIncomeAndSpentMap = coreFunctions.getMonthlyTransaction(Filter.IGNORE_DONUTS, type);
+        if(type.equals("with-prediction")){
+            monthlyIncomeAndSpentMap = coreFunctions.getMonthlyTransaction(hasDonutFilter, true, hasCreditFilter);
         }
 
         return monthlyIncomeAndSpentMap;
     }
+     */
 
+    @RequestMapping(value={"/transactions"}, method= RequestMethod.GET)
+    public Map<String, SpendAndIncome> getTransactions(){
+
+
+        coreFunctions.getAllTransactionsList();
+
+        return coreFunctions.generateOutput();
+
+    }
+
+    @RequestMapping(value={"/transactions/pre"}, method= RequestMethod.GET)
+    public Map<String, SpendAndIncome> remove(){
+
+
+        coreFunctions.getAllTransactionsList();
+
+        coreFunctions.removeCreditTransaction();
+
+        return coreFunctions.generateOutput();
+
+    }
 
     @RequestMapping("/test")
     public Map<String, String> test(){
