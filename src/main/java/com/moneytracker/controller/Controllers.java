@@ -21,43 +21,31 @@ public class Controllers {
     @Autowired
     private CoreFunctions coreFunctions;
 
-    /**
-    @RequestMapping(value={"/transactions/{type}"}, method= RequestMethod.GET)
+    @RequestMapping(value={"/transaction/{type}"}, method= RequestMethod.GET)
     public Map<String, SpendAndIncome> getTransactions(@PathVariable("type") String type,
-                                                       @RequestParam("donut_filter") boolean hasDonutFilter,
-                                                       @RequestParam("credit_filter") boolean hasCreditFilter){
+                                                       @RequestParam(value = "no-donut", defaultValue = "false") boolean nodonut,
+                                                       @RequestParam(value = "no-credit", defaultValue = "false") boolean nocredit){
 
-        Map<String, SpendAndIncome> monthlyIncomeAndSpentMap = new TreeMap<>();
 
-        if(type.equals("with-prediction")){
-            monthlyIncomeAndSpentMap = coreFunctions.getMonthlyTransaction(hasDonutFilter, true, hasCreditFilter);
+        coreFunctions.getAllTransactionsList();
+
+        if (type.equals("predict")){
+            coreFunctions.addPredition();
         }
 
-        return monthlyIncomeAndSpentMap;
-    }
-     */
+        if (nodonut){
+            coreFunctions.removeDonuts();
+        }
 
-    @RequestMapping(value={"/transactions"}, method= RequestMethod.GET)
-    public Map<String, SpendAndIncome> getTransactions(){
-
-
-        coreFunctions.getAllTransactionsList();
+        if (nocredit){
+            coreFunctions.removeCreditTransaction();
+        }
 
         return coreFunctions.generateOutput();
 
     }
 
-    @RequestMapping(value={"/transactions/pre"}, method= RequestMethod.GET)
-    public Map<String, SpendAndIncome> remove(){
 
-
-        coreFunctions.getAllTransactionsList();
-
-        coreFunctions.removeCreditTransaction();
-
-        return coreFunctions.generateOutput();
-
-    }
 
     @RequestMapping("/test")
     public Map<String, String> test(){
