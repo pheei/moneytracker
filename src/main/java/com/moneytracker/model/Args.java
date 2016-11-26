@@ -6,6 +6,10 @@ package com.moneytracker.model;
 public class Args {
     private Param args;
 
+    public Args(Param args) {
+        this.args = args;
+    }
+
     public Param getArgs() {
         return args;
     }

@@ -25,9 +25,31 @@ public class CoreFunctions {
     private TransactionService transactionService;
 
 
-    public Map<String, SpendAndIncome> getMonthlyTransaction(Filter filter){
+    public Map<String, SpendAndIncome> getMonthlyTransaction(Filter filter, String type){
 
         List<Transaction> transactionList = transactionService.getAllInfor().getTransactions();
+
+        if(type.equals("predicted")){
+            Transaction lastTransaction = transactionList.get(transactionList.size()-1);
+            Date date = new Date();
+
+            try {
+                date = utils.stringToDate(lastTransaction.getTransaction_time());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            int month = cal.get(Calendar.MONTH)+1;
+            int year = cal.get(Calendar.YEAR);
+            List<Transaction> predictedList = transactionService.getPredictedInfor(year, month).getTransactions();
+            for (Transaction t : predictedList){
+                transactionList.add(t);
+            }
+        }
+
+
 
         Map<String, SpendAndIncome> map = new TreeMap<>();
         double totalSpent = 0.0, totalIncome = 0.0;
@@ -76,16 +98,13 @@ public class CoreFunctions {
         map.put("average", si);
 
 
-
-
         return map;
     }
 
 
     public static void main(String args[]){
 
-        CoreFunctions coreFunctions = new CoreFunctions();
-        Map<String, SpendAndIncome> map = coreFunctions.getMonthlyTransaction(Filter.NO_FILTER);
+
 
 
 

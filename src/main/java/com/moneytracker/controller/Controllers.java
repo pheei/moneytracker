@@ -29,16 +29,17 @@ public class Controllers {
     @Autowired
     private CoreFunctions coreFunctions;
 
-    @RequestMapping(value={"/transactions/{filter}"}, method= RequestMethod.GET)
-    public Map<String, SpendAndIncome> getTransactions(@PathVariable("filter") String filter){
+    @RequestMapping(value={"/transactions/{type}/{filter}"}, method= RequestMethod.GET)
+    public Map<String, SpendAndIncome> getTransactions(@PathVariable("type") String type,
+                                                       @PathVariable("filter") String filter){
 
         Map<String, SpendAndIncome> monthlyIncomeAndSpentMap = new TreeMap<>();
 
         if(filter.equals("all")){
-            monthlyIncomeAndSpentMap = coreFunctions.getMonthlyTransaction(Filter.NO_FILTER);
+            monthlyIncomeAndSpentMap = coreFunctions.getMonthlyTransaction(Filter.NO_FILTER, type);
         }
         else if(filter.equals("ignore-donuts")){
-            monthlyIncomeAndSpentMap = coreFunctions.getMonthlyTransaction(Filter.IGNORE_DONUTS);
+            monthlyIncomeAndSpentMap = coreFunctions.getMonthlyTransaction(Filter.IGNORE_DONUTS, type);
         }
 
         return monthlyIncomeAndSpentMap;

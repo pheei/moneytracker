@@ -14,21 +14,37 @@ import java.util.List;
 @Component
 public class TransactionService {
     public AllInfor getAllInfor(){
-        final String uri = "https://2016.api.levelmoney.com/api/v2/core/get-all-transactions";
+        final String uri = Constants.uri_getAllTransaction;
         Param p = new Param();
         p.setUid(Constants.uid);
         p.setToken(Constants.token);
         p.setApi_token(Constants.api_token);
 
-        Args arg = new Args();
-        arg.setArgs(p);
+        Args arg = new Args(p);
 
 
         RestTemplate restTemplate = new RestTemplate();
         AllInfor allInfor = restTemplate.postForObject(uri, arg, AllInfor.class);
 
+        return allInfor;
+    }
+
+    public AllInfor getPredictedInfor(int year, int month){
+
+        String uri = Constants.uri_getForMonth;
+        Param p = new Param();
+        p.setUid(Constants.uid);
+        p.setToken(Constants.token);
+        p.setApi_token(Constants.api_token);
+
+        PredictionArgs predictionArgs = new PredictionArgs(p, year, month);
+
+        RestTemplate restTemplate = new RestTemplate();
+        AllInfor allInfor = restTemplate.postForObject(uri, predictionArgs, AllInfor.class);
 
         return allInfor;
+
+
     }
 
     public static void main(String args[]){
