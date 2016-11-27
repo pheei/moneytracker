@@ -11,8 +11,8 @@ import java.util.List;
  * Created by hpishepei on 11/24/16.
  */
 
-@Component
-public class TransactionService {
+@Component(value="getTransactionFromAPIService")
+public class GetTransactionFromAPIService implements GetTransactionService{
     public AllInfor getAllInfor(){
         final String uri = Constants.uri_getAllTransaction;
         Param p = new Param();
@@ -48,8 +48,8 @@ public class TransactionService {
     }
 
     public static void main(String args[]){
-        TransactionService transactionService = new TransactionService();
-        List<Transaction> transactions = transactionService.getAllInfor().getTransactions();
+        GetTransactionFromAPIService getTransactionFromAPIService = new GetTransactionFromAPIService();
+        List<Transaction> transactions = getTransactionFromAPIService.getAllInfor().getTransactions();
         for (Transaction transaction : transactions) {
             System.out.println(transaction.getAmount() / 10000.0 + "---" + transaction.getMerchant());
         }

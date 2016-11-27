@@ -1,10 +1,7 @@
 package com.moneytracker.utils;
 
 import com.moneytracker.constants.Constants;
-import org.junit.Test;
 
-import java.security.spec.ECField;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
@@ -17,8 +14,8 @@ import static junit.framework.TestCase.assertTrue;
 /**
  * Created by hpishepei on 11/24/16.
  */
-public class utils {
-    public static Date stringToDate(String date) throws ParseException {
+public class Utils {
+    public static Date stringToDate(String date){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         Date d = null;
         try{
@@ -52,12 +49,9 @@ public class utils {
         Date d1 = new Date();
         Date d2 = new Date();
 
-        try {
-            d1 = utils.stringToDate(time1);
-            d2 = utils.stringToDate(time2);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        d1 = Utils.stringToDate(time1);
+        d2 = Utils.stringToDate(time2);
+
         return d2.getTime()-d1.getTime()< Constants.one_day;
 
     }
@@ -76,8 +70,8 @@ public class utils {
         String str1 = "2015-03-01T15:07:00.000Z";
         String str2 = "2015-03-02T15:07:00.000Z";
 
-        Date d1 = utils.stringToDate(str1);
-        Date d2 = utils.stringToDate(str2);
+        Date d1 = Utils.stringToDate(str1);
+        Date d2 = Utils.stringToDate(str2);
 
         System.out.print(d2.getTime()-d1.getTime());
 

@@ -21,11 +21,19 @@ public class Controllers {
                                   @RequestParam(value = "no_credit", defaultValue = "false") boolean nocredit){
 
         //load all transactions from the GetAllTransactions endpoint
-        coreFunctions.getAllTransactionsList();
+        if(type.equals("all")){
+            coreFunctions.getAllTransactionsList();
+        }
 
         //add prediction
-        if (type.equals("predict")){
-            coreFunctions.addPredition();
+        else if (type.equals("predict")){
+            coreFunctions.getAllTransactionsList();
+            coreFunctions.addPrediction();
+        }
+
+        else{
+            model.addAttribute("error","Requested resource can not be found!");
+            return "jsonTemplate";
         }
 
         //remove donut related transaction

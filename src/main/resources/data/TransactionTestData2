@@ -1,0 +1,78 @@
+{
+  "error": "no-error",
+  "transactions": [
+    {
+      "amount": -34300,
+      "is-pending": false,
+      "aggregation-time": 1412686740000,
+      "account-id": "nonce:comfy-cc/hdhehe",
+      "clear-date": 1412790480000,
+      "transaction-id": "1412790480000",
+      "raw-merchant": "7-ELEVEN 23853",
+      "categorization": "Unknown",
+      "merchant": "7-Eleven 23853",
+      "transaction-time": "2014-10-07T12:59:00.000Z"
+    },
+    {
+      "amount": -30200,
+      "is-pending": false,
+      "aggregation-time": 1412702940000,
+      "account-id": "nonce:comfy-cc/hdhehe",
+      "clear-date": 1412985120000,
+      "transaction-id": "1412985120000",
+      "raw-merchant": "SUNOCO 0299792200",
+      "categorization": "Unknown",
+      "merchant": "Sunoco",
+      "transaction-time": "2014-10-07T17:29:00.000Z"
+    },
+    {
+      "amount": 99000,
+      "is-pending": false,
+      "aggregation-time": 1412733360000,
+      "account-id": "nonce:comfy-cc/hdhehe",
+      "clear-date": 1412845980000,
+      "transaction-id": "1412845980000",
+      "raw-merchant": "Krispy Kreme Donuts",
+      "categorization": "Unknown",
+      "merchant": "Krispy Kreme Donuts",
+      "transaction-time": "2014-10-08T01:56:00.000Z"
+    },
+    {
+      "amount": -79900,
+      "is-pending": false,
+      "aggregation-time": 1415084460000,
+      "account-id": "nonce:comfy-cc/hdhehe",
+      "clear-date": 1415151660000,
+      "transaction-id": "1415151660000",
+      "raw-merchant": "NETFLIX.COM",
+      "categorization": "Unknown",
+      "merchant": "Netflix.com",
+      "transaction-time": "2014-11-04T07:01:00.000Z"
+    },
+    {
+      "amount": -1527200,
+      "is-pending": false,
+      "aggregation-time": 1415169600000,
+      "account-id": "nonce:comfy-checking/hdhehe",
+      "clear-date": 1415305200000,
+      "transaction-id": "1415305200000",
+      "raw-merchant": "LOWE'S #1186",
+      "categorization": "Unknown",
+      "merchant": "Lowe's #1186",
+      "transaction-time": "2014-11-05T06:40:00.000Z"
+    },
+    {
+      "amount": -76100,
+      "is-pending": false,
+      "aggregation-time": 1415226180000,
+      "account-id": "nonce:comfy-cc/hdhehe",
+      "clear-date": 1415304660000,
+      "transaction-id": "1415304660000",
+      "raw-merchant": "CVS 00466 0046 PURCHASE CVS",
+      "categorization": "Unknown",
+      "merchant": "CVS 00466 0046 Purchase CVS",
+      "transaction-time": "2014-11-05T22:23:00.000Z"
+    }
+
+  ]
+}
