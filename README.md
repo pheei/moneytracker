@@ -1,4 +1,4 @@
-# MoneyTrancker
+# MoneyTracker
 ### Project Description
 This project has been developed as REST web API with Spring boot, consuming the data from the GetAllTransaction endpoint and determines user's monthly income and spent. The basic features are as follows.
 
