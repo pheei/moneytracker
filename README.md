@@ -33,11 +33,11 @@ The application will output result in following JSON format.
 ```
 ### Project Instruction
 
-##### Demo
-A demo of this web application has been deployed at Heroku, and can be access with following URL.
+#### Demo
+A demo version of this web application has been deployed at Heroku, and can be access with following URL. Since I deployed the application with a Heroku free developer account, only one active connection is permitted for one time. Therefore, the demonstration may not be accessible occasionlly. If not working on Heroku, please try build locally.
 https://moneytrackerapp.herokuapp.com/moneytracker/transaction
 
-##### How to build locally?
+#### How to build locally?
 First, download the project files from the github repository using git clone command, and then nagivate to the project directory:
 ```sh
 $ git clone https://github.com/pheei/moneytracker.git
@@ -52,7 +52,7 @@ Now, the REST web service will be running on your local machine at port 8080. Tr
 ```sh
 http://localhost:8080/moneytracker/transaction
 ```
-##### How to use?
+#### How to use?
 You can access the web services either through the button on the homepage or directly typing in the corresponding URL in your browser. The URL is designed as follows.
 
 If you want to get all the transactions without any additional features, you can simply enter the following URL in the web browser.
@@ -164,5 +164,5 @@ And once the "no_credit" is set to true, the application will automatically gene
 }
 ```
 
-##### P.S.
+#### P.S.
 All the required features in the excersice instructions document has been implemented. Since the excersice doesn't explicity requires UI design and front-end development, I just choose to build it in a more straight forward way as plain REST web API without fancy client side or data rendering technologies. If a front-end part is still required, please let me know, and I will continue my development.
