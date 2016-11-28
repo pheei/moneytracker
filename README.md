@@ -42,14 +42,16 @@ build the project with Maven mvn command, and then execute the generated .jar fi
 $ mvn package
 $ java -jar target/moneytracker-1.0-SNAPSHOT.jar
 ```
-Now, the REST web service will be running on your local machine at port 8080. Try to enter follwing URL into your web browser. If a simple welcome message shows up, it indicates the web service is running correctly.
+Now, the REST web service will be running on your local machine at port 8080. Try to enter follwing URL into your web browser. The homepage of the web service will show up.
 ```sh
-http://localhost:8080/
+http://localhost:8080/moneytracker/transaction
 ```
 ##### How to use?
+You can access the web services either through the button on the homepage or directly typing in the corresponding URL in your browser. The the URL is as follows.
+
 If you want to get all the transactions without any additional features, you can simply enter the following URL in the web browser.
 ```sh
-http://localhost:8080/transaction/all
+http://localhost:8080/moneytracker/transaction/all
 ```
 And then, will will get a output like this in JSON format.
 ```sh
@@ -75,7 +77,7 @@ And then, will will get a output like this in JSON format.
 ```
 Or if you want to add predited transactions of currently month into the original list, you can enter:
 ```sh
-http://localhost:8080/transaction/predict
+http://localhost:8080/moneytracker/transaction/predict
 ```
 Then, you will notice that the spent of the last month and the average spent will be increased as expected.
 ```sh
@@ -97,12 +99,12 @@ Then, you will notice that the spent of the last month and the average spent wil
 ```
 Besides, you can also remove credit card payment or donuts related transactions, by simplying adding "no_donut" and "no_credit" parameters to the end of URL. And they will be set to "false" by defaut, if you don't explicitly add them.
 ```sh
-http://localhost:8080/transaction/all?no_donut=false&no_credit=false
-http://localhost:8080/transaction/predict?no_donut=false&no_credit=false
+http://localhost:8080/moneytracker/transaction/all?no_donut=false&no_credit=false
+http://localhost:8080/moneytracker/transaction/predict?no_donut=false&no_credit=false
 ```
 If you want to get all the transaction without donuts and credit card payment, you can enter the URL as follows.
 ```sh
-http://localhost:8080/transaction/all?no_donut=true&no_credit=true
+http://localhost:8080/moneytracker/transaction/all?no_donut=true&no_credit=true
 ```
 And once the "no_credit" is set to true, the application will automatically generate an extra list to display all the removed credit card transactions for verification purpose. The result will be presented in following format.
 ```sh

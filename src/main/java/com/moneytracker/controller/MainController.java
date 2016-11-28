@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
+@RequestMapping("/moneytracker")
 public class MainController {
 
     @Autowired

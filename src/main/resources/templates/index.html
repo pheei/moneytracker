@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Money Tracker</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+    <h1>Welcome to MoneyTracker!</h1>
+    <p>This is the homepage of MoneyTracker REST web API.</p>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <h3>Get Transactions</h3>
+            <p>Directly loads a user's transactions from the API endpoint. Determines how much money the user spends and makes in each of the months for which we have data, and in the "average" month.</p>
+        </div>
+        <div class="col-sm-3">
+            <h3>With Prediction</h3>
+            <p>fetch current month's prediction from API endpoint, and append the predicted transactions into the original transaction list.</p>
+        </div>
+        <div class="col-sm-3">
+            <h3>Ignore Donut</h3>
+            <p>remove all the donuts related transactions that have merchant name Krispy Kreme Donuts or DUNKIN #336784 from the output transaction list.</p>
+        </div>
+        <div class="col-sm-3">
+            <h3>Ignore Credit Card</h3>
+            <p>remove all the credit card transactions from the original list.</p>
+            <br/>
+
+
+        </div>
+    </div>
+
+
+    <label>Please select the features you want to apply! </label>
+
+    <div class = "radio">
+        <label>
+            <input type = "radio" name = "optionsRadios" id = "optionsRadios1" value = "all" checked="true">Get Transactions
+            </input>
+        </label>
+    </div>
+
+    <div class = "radio">
+        <label>
+            <input type = "radio" name = "optionsRadios" id = "optionsRadios2" value = "predict">
+            With Prediction
+            </input>
+        </label>
+    </div>
+
+    <div class = "checkbox">
+        <label>
+            <input type = "checkbox" id = "checkBox1" value = "donut">Ignore Donut
+            </input>
+        </label>
+    </div>
+
+    <div class = "checkbox">
+        <label>
+            <input type = "checkbox" id = "checkBox2" value = "credit">Ignore Credit Card</input>
+        </label>
+    </div>
+
+    <button class="btn btn-block btn-primary" id="my_button">Get Transaction</button>
+
+</div>
+
+
+<script>
+
+    $(document).ready(function() {
+        $("#my_button").click(function(){
+            var url = "http://localhost:8080/moneytracker/transaction/";
+            var option = $('input[name=optionsRadios]:checked').val()+'?';
+            url = url+option;
+
+            var credit = '';
+            var donut = '';
+
+            if ($('#checkBox1').is(':checked')) {
+                donut = true;
+            }
+            else{
+                donut = false;
+            }
+            if ($('#checkBox2').is(':checked')) {
+                credit = true;
+            }
+            else{
+                credit = false;
+            }
+
+            var params = {no_credit:credit, no_donut:donut};
+            var str = jQuery.param(params);
+            url = url + str;
+
+            window.location.href = url;
+
+        });
+    });
+
+</script>
+
+</body>
+</html>
