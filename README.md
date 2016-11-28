@@ -1,4 +1,5 @@
 # MoneyTracker
+
 ### Project Description
 This project has been developed as REST web API with Spring boot, consuming the data from the GetAllTransaction endpoint and determines user's monthly income and spent. The basic features are as follows.
 
@@ -31,7 +32,12 @@ The application will output result in following JSON format.
     }
 ```
 ### Project Instruction
-##### How to build?
+
+##### Demo
+A demo of this web application has been deployed at Heroku, and can be access with following URL.
+https://moneytrackerapp.herokuapp.com/moneytracker/transaction
+
+##### How to build locally?
 First, download the project files from the github repository using git clone command, and then nagivate to the project directory:
 ```sh
 $ git clone https://github.com/pheei/moneytracker.git
@@ -47,7 +53,7 @@ Now, the REST web service will be running on your local machine at port 8080. Tr
 http://localhost:8080/moneytracker/transaction
 ```
 ##### How to use?
-You can access the web services either through the button on the homepage or directly typing in the corresponding URL in your browser. The the URL is as follows.
+You can access the web services either through the button on the homepage or directly typing in the corresponding URL in your browser. The URL is designed as follows.
 
 If you want to get all the transactions without any additional features, you can simply enter the following URL in the web browser.
 ```sh
