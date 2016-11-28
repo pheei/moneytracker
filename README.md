@@ -100,7 +100,7 @@ Besides, you can also remove credit card payment or donuts related transactions,
 http://localhost:8080/transaction/all?no_donut=false&no_credit=false
 http://localhost:8080/transaction/predict?no_donut=false&no_credit=false
 ```
-If I want to get all the transaction without donuts and credit card payment, I can enter the URL as follows.
+If you want to get all the transaction without donuts and credit card payment, you can enter the URL as follows.
 ```sh
 http://localhost:8080/transaction/all?no_donut=true&no_credit=true
 ```
@@ -157,4 +157,4 @@ And once the "no_credit" is set to true, the application will automatically gene
 ```
 
 ##### P.S.
-All the required features in the excersice instructions document has been implemented. Since the excersice doesn't explicity requires UI design and front-end development, I just choose to build it in a more straigh forward way as plain REST web API without fancy client technologies. If a front-end part is required, please let me know, and I will continue my development.
+All the required features in the excersice instructions document has been implemented. Since the excersice doesn't explicity requires UI design and front-end development, I just choose to build it in a more straigt forward way as plain REST web API without fancy client side or data rendering technologies. If a front-end part is still required, please let me know, and I will continue my development.
