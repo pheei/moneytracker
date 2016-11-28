@@ -157,4 +157,4 @@ And once the "no_credit" is set to true, the application will automatically gene
 ```
 
 ##### P.S.
-All the required features in the excersice instructions document has been implemented. Since the excersice doesn't explicity requires UI design and front-end development, I just choose to build it in a more straigt forward way as plain REST web API without fancy client side or data rendering technologies. If a front-end part is still required, please let me know, and I will continue my development.
+All the required features in the excersice instructions document has been implemented. Since the excersice doesn't explicity requires UI design and front-end development, I just choose to build it in a more straight forward way as plain REST web API without fancy client side or data rendering technologies. If a front-end part is still required, please let me know, and I will continue my development.
