@@ -1,5 +1,6 @@
 package com.moneytracker.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -8,6 +9,11 @@ import java.util.List;
 public class AllInfor {
     private String error = "";
     private List<Transaction> transactions;
+
+    public AllInfor() {
+        this.error = "";
+        this.transactions = new LinkedList<>();
+    }
 
     public String getError() {
         return error;

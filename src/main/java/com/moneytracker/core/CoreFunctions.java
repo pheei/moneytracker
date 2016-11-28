@@ -1,13 +1,14 @@
 package com.moneytracker.core;
 
-import com.moneytracker.Services.TransactionService;
+import com.moneytracker.Services.GetTransactionFromAPIService;
+import com.moneytracker.Services.GetTransactionService;
 import com.moneytracker.constants.Constants;
 import com.moneytracker.model.*;
-import com.moneytracker.utils.utils;
+import com.moneytracker.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
 import java.time.YearMonth;
 import java.util.*;
 
@@ -19,14 +20,17 @@ import java.util.*;
 public class CoreFunctions {
 
     @Autowired
-    private TransactionService transactionService;
+    @Qualifier("getTransactionFromAPIService")
+    private GetTransactionService getTransactionService;
 
 
     private List<Transaction> transactionList;
 
+
     //use LinkedList instead of ArrayList, since we have a lot of remove operation and don't need random access
     public void getAllTransactionsList(){
-        this.transactionList = new LinkedList<>(transactionService.getAllInfor().getTransactions());
+
+        this.transactionList = new LinkedList<>(getTransactionService.getAllInfor().getTransactions());
 
     }
 
@@ -40,25 +44,21 @@ public class CoreFunctions {
 
             //remove the transactions which have “Krispy Kreme Donuts” or “DUNKIN #336784” in merchant field
             if (t.getMerchant().equals("Krispy Kreme Donuts")
-                    ||t.getMerchant().equals("DUNKIN #336784")){
+                    ||t.getMerchant().equals("Dunkin #336784")){
                 it.remove();
             }
         }
     }
 
     //add predicted transaction for the rest of current month
-    public void addPredition(){
+    public void addPrediction(){
 
         //since the system current time may not be the same date as the last transaction recorded,
         //it is better to get time information from the last transaction
         Transaction lastTransaction = transactionList.get(transactionList.size()-1);
         Date date = new Date();
+        date = Utils.stringToDate(lastTransaction.getTransaction_time());
 
-        try {
-            date = utils.stringToDate(lastTransaction.getTransaction_time());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -66,7 +66,7 @@ public class CoreFunctions {
         int year = cal.get(Calendar.YEAR);
 
         //add prediction to the original transaction list
-        List<Transaction> predictedList = transactionService.getPredictedInfor(year, month).getTransactions();
+        List<Transaction> predictedList = getTransactionService.getPredictedInfor(year, month).getTransactions();
         for (Transaction t : predictedList){
             transactionList.add(t);
         }
@@ -103,22 +103,14 @@ public class CoreFunctions {
 
             //keep the current transaction time as long, in order to find time difference below
             long time = 0;
-            try {
-                time = utils.stringToDate(transaction.getTransaction_time()).getTime();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            time = Utils.stringToDate(transaction.getTransaction_time()).getTime();
 
             //remove the transactions that beyond 24 hours time frame from the head of map
             Iterator it = map.keySet().iterator();
             while(it.hasNext()){
                 Transaction t = map.get((Integer) it.next());
-                try {
-                    if(time - utils.stringToDate(t.getTransaction_time()).getTime() >= Constants.one_day){
-                        it.remove();
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                if(time - Utils.stringToDate(t.getTransaction_time()).getTime() >= Constants.one_day){
+                    it.remove();
                 }
             }
 
@@ -155,34 +147,29 @@ public class CoreFunctions {
 
         for(Transaction transaction : transactionList){
 
-            try {
-                Date date = utils.stringToDate(transaction.getTransaction_time());
-                YearMonth yearMonth = utils.dateToYearMonth(date);
+            Date date = Utils.stringToDate(transaction.getTransaction_time());
+            YearMonth yearMonth = Utils.dateToYearMonth(date);
 
-                //add the initial element of a month
-                if(!map.containsKey(yearMonth.toString())){
-                    map.put(yearMonth.toString(), new SpendAndIncome("$0.00", "$0.00"));
-                }
-
-                SpendAndIncome spendAndIncome = map.get(yearMonth.toString());
-
-                //add current transaction amount to the monthly aggregation value
-                if(transaction.getAmount()<0){
-                    totalSpent += -transaction.getAmount()/10000.0;
-                    String spent = utils.addMoney(spendAndIncome.getSpent(), "$"+String.format("%.2f", -transaction.getAmount()/10000.0));
-                    spendAndIncome.setSpent(spent);
-
-                }
-                else{
-                    totalIncome += transaction.getAmount()/10000.0;
-                    String income = utils.addMoney(spendAndIncome.getIncome(), "$"+String.format("%.2f", transaction.getAmount()/10000.0));
-                    spendAndIncome.setIncome(income);
-                }
-                map.put(yearMonth.toString(), spendAndIncome);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+            //add the initial element of a month
+            if(!map.containsKey(yearMonth.toString())){
+                map.put(yearMonth.toString(), new SpendAndIncome("$0.00", "$0.00"));
             }
+
+            SpendAndIncome spendAndIncome = map.get(yearMonth.toString());
+
+            //add current transaction amount to the monthly aggregation value
+            if(transaction.getAmount()<0){
+                totalSpent += -transaction.getAmount()/10000.0;
+                String spent = Utils.addMoney(spendAndIncome.getSpent(), "$"+String.format("%.2f", -transaction.getAmount()/10000.0));
+                spendAndIncome.setSpent(spent);
+
+            }
+            else{
+                totalIncome += transaction.getAmount()/10000.0;
+                String income = Utils.addMoney(spendAndIncome.getIncome(), "$"+String.format("%.2f", transaction.getAmount()/10000.0));
+                spendAndIncome.setIncome(income);
+            }
+            map.put(yearMonth.toString(), spendAndIncome);
         }
 
         //calculate the average income and spent, which is generated by total number divided by the number of months
@@ -191,6 +178,15 @@ public class CoreFunctions {
         SpendAndIncome si = new SpendAndIncome("$"+String.format("%.2f",totalSpent), "$"+String.format("%.2f",totalIncome));
         map.put("average", si);
         return map;
+    }
+
+
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
     }
 
     //remove the credit card payment transaction from the list

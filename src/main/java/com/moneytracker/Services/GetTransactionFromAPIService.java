@@ -5,6 +5,7 @@ import com.moneytracker.model.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Component(value="getTransactionFromAPIService")
 public class GetTransactionFromAPIService implements GetTransactionService{
+
     public AllInfor getAllInfor(){
         final String uri = Constants.uri_getAllTransaction;
         Param p = new Param();
@@ -25,6 +27,8 @@ public class GetTransactionFromAPIService implements GetTransactionService{
 
         RestTemplate restTemplate = new RestTemplate();
         AllInfor allInfor = restTemplate.postForObject(uri, arg, AllInfor.class);
+
+
 
         return allInfor;
     }
@@ -47,12 +51,5 @@ public class GetTransactionFromAPIService implements GetTransactionService{
 
     }
 
-    public static void main(String args[]){
-        GetTransactionFromAPIService getTransactionFromAPIService = new GetTransactionFromAPIService();
-        List<Transaction> transactions = getTransactionFromAPIService.getAllInfor().getTransactions();
-        for (Transaction transaction : transactions) {
-            System.out.println(transaction.getAmount() / 10000.0 + "---" + transaction.getMerchant());
-        }
 
-    }
 }

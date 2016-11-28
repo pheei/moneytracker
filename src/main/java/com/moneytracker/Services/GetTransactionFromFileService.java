@@ -33,9 +33,5 @@ public class GetTransactionFromFileService implements GetTransactionService {
         return null;
     }
 
-    public static void main(String args[]){
-        GetTransactionFromFileService get = new GetTransactionFromFileService();
-        AllInfor all = get.getAllInfor();
-        System.out.print(all.toString());
-    }
+
 }

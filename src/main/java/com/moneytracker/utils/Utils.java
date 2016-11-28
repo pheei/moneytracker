@@ -56,29 +56,5 @@ public class Utils {
 
     }
 
-    /**
-    @Test
-    public void testStringToDate() throws ParseException {
-        System.out.println("@Test stringToDate(): " + "2014-10-07T12:59:00.000Z" + "=" + "Tue Oct 07 12:59:00 EDT 2014");
-        Date d = stringToDate("2014-10-07T12:59:00.000Z");
-        assertTrue(d.toString().equals("Tue Oct 07 12:59:00 EDT 2014"));
-    }
-
-    */
-
-    public static void main(String args[]) throws ParseException {
-        String str1 = "2015-03-01T15:07:00.000Z";
-        String str2 = "2015-03-02T15:07:00.000Z";
-
-        Date d1 = Utils.stringToDate(str1);
-        Date d2 = Utils.stringToDate(str2);
-
-        System.out.print(d2.getTime()-d1.getTime());
-
-
-        LinkedHashMap<Double, Integer> map = new LinkedHashMap<>();
-        map.put(1.0, 10);
-        map.put(1.5, 20);
-    }
 
 }
