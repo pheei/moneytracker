@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-public class Controllers {
+public class MainController {
 
     @Autowired
     private CoreFunctions coreFunctions;
