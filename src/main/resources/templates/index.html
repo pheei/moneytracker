@@ -78,7 +78,7 @@
 
     $(document).ready(function() {
         $("#my_button").click(function(){
-            var url = "http://localhost:8080/moneytracker/transaction/";
+            var url = window.location.href+'/';
             var option = $('input[name=optionsRadios]:checked').val()+'?';
             url = url+option;
 
