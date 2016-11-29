@@ -34,7 +34,8 @@ The application will output result in following JSON format.
 ### Project Instruction
 
 #### Demo
-A demo version of this web application has been deployed at Heroku, and can be access with following URL. Since I deployed the application with a Heroku free developer account, only one active connection is permitted for one time. Therefore, the demonstration may not be accessible occasionlly. If not working on Heroku, please try build locally.
+A demo version of this web application has been deployed at Heroku, and can be access with following URL. Since I deployed the application with a Heroku free developer account, the application will be foreced to sleep after 30 minutes without any activity. Therefore, when you try to run the demo page for the first time, you may need to wait about 20 seconds occacionally to let the application get activated, which is not cause by the application itself but from the restriction of Heroku free account... 
+
 https://moneytrackerapp.herokuapp.com/moneytracker/transaction
 
 #### How to build locally?
